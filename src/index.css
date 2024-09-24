@@ -1,13 +1,80 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+/* RESET STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.indicator {
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.indicator *,
+.indicator::before {
+  box-sizing: border-box;
+}
+
+/* indicator STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.indicator {
+  position: relative;
+  width: 350px;
+  height: 175px;
+  overflow: hidden;
+}
+
+.indicator::before,
+.indicator::after {
+  position: absolute;
+}
+
+.indicator::before {
+  content: "";
+  width: inherit;
+  height: inherit;
+  border: 45px solid rgba(211, 211, 211, 0.3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.indicator span.bar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 45px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: 0.4s;
+  animation-timing-function: linear;
+  z-index: 4;
+  border-color: green;
+  animation-name: rotate-one;
+}
+
+.indicator span.result {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: cadetblue;
+}
+
+span.result span:nth-child(1) {
+  font-size: 2rem;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotate(0);
+  }
 }
