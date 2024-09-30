@@ -8,18 +8,32 @@ import { useState } from 'react';
 function App() {
   const [scoreToReach, setScoreToReach] = useState(501);
   const [score, setScore] = useState(501);
+  const [oldScore, setOldScore] = useState(0);
   const [multiplicator, setMultiplicator] = useState(1);
   const [arrows, setArrows] = useState(3);
   const [laps, setLaps] = useState(0);
 
 
-  const handleClick = (number) => {
+  const handleClick = (number) => { 
+    if (arrows - 1 == 0) {
+      setArrows(3);
+      setLaps(laps + 1);
+      if (score - (number * multiplicator) >= 0) {
+        setOldScore(score - (number * multiplicator));
+      }
+    }else{
+      setArrows(arrows - 1);
+    }
+
     if (number == 25 && multiplicator == 3) {
       alert("TRICHEUR !!!!!");
       setMultiplicator(1);
     }else if((score -(number * multiplicator)) < 0){
       alert('Tour terminé !!');
+      setArrows(3)
+      setLaps(laps + 1);
       setMultiplicator(1);
+      setScore(oldScore);
     } else if((score -(number * multiplicator)) == 0){
       setScore(score - (number * multiplicator));
       setMultiplicator(1);
@@ -33,20 +47,39 @@ function App() {
   const replay = () => {
     setMultiplicator(1);
     setScore(501);
+    setArrows(3);
+    setLaps(0);
   }
 
-  
   return <>
   <Container className='d-flex flex-column align-items-center'>
     <h1>Flechettes</h1>
     <ScoreIndicator maxValue={scoreToReach} value={score}/>
-    <img  src={imgArrow} className='arrow-img'/>
-    {score == 0 ? <>
+    <h5>Tours : {laps}</h5>
+    <div className='d-flex justify-content-center'>
+      {arrows == 3 && <>
+        <img src={imgArrow} className='arrow-img'/>
+        <img src={imgArrow} className='arrow-img'/>
+        <img src={imgArrow} className='arrow-img'/>
+      </>}
+
+      {arrows == 2 && <>
+        <img src={imgArrow} className='arrow-img'/>
+        <img src={imgArrow} className='arrow-img'/>
+      </>}
+
+      {arrows == 1 && <>
+        <img src={imgArrow} className='arrow-img'/>
+      </>}
+    </div>
+   
+    
+    {score == 0 ? <>  
       {/* J'afficher quelque chose si mon score est égale à zéro */}
       <Button variant='primary' className='mt-3' onClick={replay}>Rejouer</Button>
     </> : <>
       {/* J'afficher queque chose si mon score n'est pas égale à zéro */}
-      <div className='d-flex justify-content-between col-5 col-xl-3 mt-3'>
+    <div className='d-flex justify-content-between col-5 col-xl-3 mt-3'>
       <Button variant='dark' className='col-2' onClick={() => {handleClick(1)}}>1</Button>
       <Button variant='light' className='col-2' onClick={() => {handleClick(2)}}>2</Button>
       <Button variant='dark' className='col-2' onClick={() => {handleClick(3)}}>3</Button>
